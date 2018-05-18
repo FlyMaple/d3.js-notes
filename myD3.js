@@ -1,3 +1,4 @@
+
 function example_1() {
     var data = [12, 28, 31, 40, 56, 67, 73, 80, 95];
 
@@ -402,6 +403,7 @@ function example_3() {
 
     var svg = d3.select('#example_3')
         .style('display', 'initial')
+        .style('cursor', 'pointer')
         .attrs({
             width: 900,
             height,
@@ -478,27 +480,15 @@ function example_3() {
         .enter()
         .append('g')
         .attrs({
+            // 'pointer-events': 'all',
             transform: function (d, i, nodes) {
                 return `translate(0, ${i * ((height - 150) / nodes.length)})`;
             },
-        })
-        .on('mouseover', function (d, i) {
-            d3.select(this).select('rect').attrs({
-                fill: function (d) {
-                    return `#${lighten(colour(d.name), 5)}`;
-                },
-            });
-        })
-        .on('mouseout', function (d, i) {
-            d3.select(this).select('rect').attrs({
-                fill: function (d) {
-                    return colour(d.name);
-                },
-            });
         });
 
     legend.append('rect')
         .attrs({
+            class: 'rect',
             y: '.15em',
             width: 15,
             height: 15,
@@ -518,5 +508,53 @@ function example_3() {
         .text(function (d) {
             return d.name.match(/[^\s]+/)[0];
         });
+
+    legend.append('rect')
+        .attrs({
+            class: 'legend-item-wrp',
+            width: function (d, i) {
+                var g_width = legend.nodes()[i].getBBox().width;
+
+                return g_width;
+            },
+            height: 20,
+            fill: 'rgba(0, 0, 0, 0)',
+        })
+        .on('mouseover', function (d, i) {
+            d3.select(legend.nodes()[i]).select('.rect').attrs({
+                fill: function (d) {
+                    return `#${lighten(colour(d.name), 5)}`;
+                },
+            });
+
+            d3.select(gg.nodes()[i])
+                .select('path')
+                .transition()
+                .duration(500)
+                .attrs({
+                    d: arcHover,
+                    fill: function (d) {
+                        return `#${lighten(colour(d.data.name), 5)}`;
+                    },
+                });
+        })
+        .on('mouseout', function (d, i) {
+            d3.select(legend.nodes()[i]).select('.rect').attrs({
+                fill: function (d) {
+                    return colour(d.name);
+                },
+            });
+
+            d3.select(gg.nodes()[i])
+                .select('path')
+                .transition()
+                .duration(500)
+                .attrs({
+                    d: arc,
+                    fill: function (d) {
+                        return `#${lighten(colour(d.data.name), 5)}`;
+                    },
+                });
+        });;
 }
 example_3();
