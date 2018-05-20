@@ -249,6 +249,7 @@ function example_2() {
             width,
             height,
         })
+        .style('display', 'initial')
         .append('svg')
         .attrs({
             width: width,
@@ -330,6 +331,9 @@ function example_2() {
         });
     }, arcText.range([0, width]));
 }
+// example_2();
+
+
 function example_3() {
 
     var seedData = [
@@ -557,4 +561,183 @@ function example_3() {
                 });
         });;
 }
-example_3();
+// example_3();
+
+function example_4() {
+    var data = [
+        { name: 'iPad 2', value: 0.1, pct: '1%' },
+        { name: 'iPad 3', value: 0.5, pct: '1%' },
+        { name: 'iPad 4', value: 0.8, pct: '1%' },
+        { name: 'iPad Air', value: 15.92, pct: '1%' },
+        { name: 'iPad Air 2', value: 43.71, pct: '1%' },
+        { name: 'iPad Mini 1', value: 5.83, pct: '1%' },
+        { name: 'iPad Mini 2', value: 19, pct: '1%' },
+        { name: 'iPad Mini 3', value: 14, pct: '1%' },
+        { name: 'iPad Mini 4', value: 14, pct: '1%' },
+        { name: 'iPad Mini 5', value: 14, pct: '1%' },
+        { name: 'iPad Mini 6', value: 14, pct: '1%' },
+        { name: 'iPad Mini 7', value: 14, pct: '1%' },
+        { name: 'iPad Mini 8', value: 14, pct: '1%' },
+        { name: 'iPad Mini 9', value: 14, pct: '1%' },
+        { name: 'iPad Mini 10', value: 14, pct: '1%' },
+    ];
+
+    data.sort(function (a, b) {
+        return b.value - a.value;
+    });
+
+    var svg = d3.select('#example_4').style('display', 'initial').select('svg'),
+        canvas = d3.select('#canvas'),
+        art = d3.select('#art'),
+        labels = d3.select('#labels');
+
+    var d3Pie = d3.pie();
+    d3Pie.value(function (d) {
+        return d.value;
+    });
+
+    // store our chart dimensions
+    var cDim = {
+        height: 500,
+        width: 700,
+        innerRadius: 100,
+        outerRadius: 150,
+        labelRadius: 180
+    };
+
+    svg.attrs({
+        height: cDim.height,
+        width: cDim.width
+    })
+        .style('display', 'initial');
+
+    canvas.attr('transform', 'translate(' + (cDim.width / 2) + ', ' + (cDim.height / 2) + ')');
+
+    var pieData = d3Pie(data);
+
+    var pieArc = d3.arc()
+        .innerRadius(cDim.innerRadius)
+        .outerRadius(cDim.outerRadius);
+
+
+    var colors = d3.scaleOrdinal(d3.schemeCategory20);
+
+    var enteringArcs = art.selectAll('.wedge').data(pieData).enter();
+
+    enteringArcs.append('path')
+        .attr('class', 'wedge')
+        .attr('d', pieArc)
+        .style('fill', function (d, i) { return colors(i); });
+
+
+
+    var enteringLabels = labels.selectAll('.label').data(pieData).enter();
+    var labelGroups = enteringLabels.append('g').attr('class', 'label');
+
+    var lines = labelGroups.append('line').attrs({
+        x1: function (d, i) {
+            return pieArc.centroid(d)[0];
+        },
+        y1: function (d) {
+            return pieArc.centroid(d)[1];
+        },
+        x2: function (d) {
+            var centroid = pieArc.centroid(d),
+                midAngle = Math.atan2(centroid[1], centroid[0]);
+            return Math.cos(midAngle) * cDim.labelRadius;
+        },
+        y2: function (d) {
+            var centroid = pieArc.centroid(d),
+                midAngle = Math.atan2(centroid[1], centroid[0]);
+            return Math.sin(midAngle) * cDim.labelRadius;
+        },
+
+        'class': 'label-line',
+        'stroke': function (d, i) {
+            return colors(i);
+        }
+    });
+
+    var textLabels = labelGroups.append('text').attrs({
+        fill: '#fff',
+        x: function (d, i) {
+            var centroid = pieArc.centroid(d),
+                midAngle = Math.atan2(centroid[1], centroid[0]),
+                x = Math.cos(midAngle) * cDim.labelRadius,
+                sign = x > 0 ? 1 : -1;
+            return x + (5 * sign);
+        },
+
+        y: function (d, i) {
+            var centroid = pieArc.centroid(d),
+                midAngle = Math.atan2(centroid[1], centroid[0]),
+                y = Math.sin(midAngle) * cDim.labelRadius;
+            return y;
+        },
+
+        'text-anchor': function (d, i) {
+            var centroid = pieArc.centroid(d),
+                midAngle = Math.atan2(centroid[1], centroid[0]),
+                x = Math.cos(midAngle) * cDim.labelRadius;
+            return x > 0 ? 'start' : 'end';
+        },
+        
+        'class': 'label-text'
+    })
+    .styles({
+        'font-size': '12px',
+    })
+    .text(function (d) {
+        return d.data.name + ' ( ' + d.data.pct + ' ) ';
+    })
+
+
+    // relax the label!
+    var alpha = 0.5,
+        spacing = 15;
+
+    function relax() {
+        var again = false;
+        textLabels.each(function (d, i) {
+            var a = this,
+                da = d3.select(a),
+                y1 = da.attr('y');
+            textLabels.each(function (d, j) {
+                var b = this;
+                if (a === b) {
+                    return;
+                }
+
+                db = d3.select(b);
+                if (da.attr('text-anchor') !== db.attr('text-anchor')) {
+                    return;
+                }
+
+                var y2 = db.attr('y');
+                deltaY = y1 - y2;
+
+                if (Math.abs(deltaY) > spacing) {
+                    return;
+                }
+
+                again = true;
+                sign = deltaY > 0 ? 1 : -1;
+                var adjust = sign * alpha;
+                da.attr('y', +y1 + adjust);
+                db.attr('y', +y2 - adjust);
+            });
+        });
+
+        if (again) {
+            var labelElements = textLabels.nodes();
+            lines.attr('y2', function (d, i) {
+                var labelForLine = d3.select(labelElements[i]);
+                return labelForLine.attr('y');
+            });
+            setTimeout(relax, 20);
+        }
+    }
+
+    relax();
+}
+example_4();
