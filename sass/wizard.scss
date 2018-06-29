@@ -1,0 +1,246 @@
+#quick-start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // -------------- FIXME ---------------
+    .w-form-group {
+        position:relative;  
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
+      
+      .form-label {
+        position: absolute;
+        left: 5px;
+        top: 10px;
+        color: #999;
+        z-index: 10;
+        transition: transform 150ms ease-out, font-size 150ms ease-out;
+      }
+      
+      .focused .form-label {
+        transform: translateY(-125%);
+        font-size: .75em;
+      }
+      
+      .form-input {
+        position: relative;
+        padding: 12px 5px 5px 5px;
+        width: 100%;
+        outline: 0;
+        border: 0;
+        box-shadow: 0 1px 0 0 #e5e5e5;
+        transition: box-shadow 150ms ease-out;
+        background: transparent;
+        height: 34px;
+        
+        &:focus {
+        //   box-shadow: 0 2px 0 0 blue;
+        }
+      }
+      
+      .form-input.filled {
+        box-shadow: 0 2px 0 0 lightgreen;
+      }
+    // -------------- FIXME ---------------
+
+    .title {
+        margin-bottom: 25px;
+        line-height: 40px;
+        letter-spacing: 1px;
+        text-align: center;
+        font: {
+            size: 28px;
+        }
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            background: #565656;
+            border: 1px solid #5f5f5f;
+            font-size: 16px;
+            height: 34px;
+        }
+    }
+
+    select {
+        width: 100%;
+        font-size: 14px;
+        padding: 0px 30px 0px 10px;
+        margin-bottom: 25px;
+        height: 34px;
+        color: #696969;
+        border-width: 0 0 1px 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        background: url(http://localhost:63342/cc/gui/img/dashboard/select_triangle.svg) no-repeat right;
+        background-color: #565656;
+
+        /*for ie10 、 ie11*/
+        @media screen and (-ms-high-contrast: active),(-ms-high-contrast: none){
+            background: url(http://localhost:63342/cc/gui/img/dashboard/select_triangle.svg) no-repeat 34px 0;
+            background-color: #cddee9;
+        }
+    }
+
+    select::-ms-expand {
+        display: none;
+    }
+
+    .wrapper {
+        width: 100%;
+        max-width: 1366px;
+
+        @media (max-width: 1366px) {
+            max-width: 1280px;
+        }
+
+        @media (max-width: 1280px) {
+            max-width: 1024px;
+        }
+
+        .left, .right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left {
+            .about-wrapper {
+                margin-top: 30vh;
+                padding: 0 10%;
+    
+                .step {
+                    display: flex;
+    
+                    li {
+                        margin-right: 10px;
+                        padding: 0 2px;
+                        border-bottom: 2px solid #45464a;
+                        color: #45464a;
+                        font-weight: 600;
+                        font-size: 18px;
+
+                        &.active {
+                            color: #6fab29;
+                            border-bottom: 2px solid #6fab29;
+                        }
+                    }
+                }
+
+                .about {
+                    line-height: 26px;
+                    letter-spacing: .5px;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .right {
+            .form-container {
+                width: 80%;
+                max-width: 400px;
+                margin-top: 25vh;
+
+                .btn-group {
+                    button {
+                        width: 48%;
+                        margin-bottom: 25px;
+                    }
+
+                    a {
+                        position: absolute;
+                        line-height: 34px;
+                        right: -40px;
+                        text-decoration: underline;
+                    }
+                }
+    
+                &.form-org {
+                    .btn-group {
+                        button {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                &.form-device {
+                    .add-device {
+                        display: flex;
+                        justify-content: flex-end;
+                        margin-bottom: 25px;
+
+                        > span {
+
+                        }
+                    }
+
+                    .device-table {
+                        margin-bottom: 35px;
+                    }
+                }
+
+                &.form-guest {
+                    .radio {
+                        margin: 15px 0;
+                        line-height: 24px;
+                    }
+                }
+            }
+        }
+
+        .summary {
+            .card {
+                position: relative;
+                margin: 10px;
+                padding-bottom: 20px;
+                border-radius: 2px;
+                box-shadow: 0px 1px 3px 3px #58585873;
+                z-index: 20;
+
+                &.card-device {
+                    top: -7px;
+                    z-index: 10;
+                }
+
+
+                .title {
+                    font: {
+                        size: 12px;
+                    }
+                }
+
+                .edit {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                }
+
+                .item {
+                    text-align: center;
+                    padding: 10px 10px 0 10px;
+
+                    .title {
+                        margin: 0;
+                        line-height: 32px;
+                    }
+                }
+            }
+
+            .btn-group {
+                justify-content: center;
+                margin-top: 30px;
+
+                button {
+                    width: 30vw;
+                }
+            }
+        }
+    }
+}

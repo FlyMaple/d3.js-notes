@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <script src="//code.angularjs.org/snapshot/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+    <script src="ng.js"></script>
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            max-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #454e52;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-height: 100%;
+        }
+
+        #wrp {
+            width: 375px;
+            height: 300px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin: auto;
+        }
+
+        .ui-d3-chart-tooltip {
+            position: absolute;
+            padding: 7px;
+            text-align: left;
+            font-size: 12px;
+            background-color: #ffffffc4;
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #000;
+        }
+
+        .ui-d3-chart-tooltip.transition {
+            transition: linear, opacity .1s linear;
+        }
+
+        .ui-disable-legend {
+            position: absolute;
+            font-size: 14px;
+            font-weight: 600;
+            color: #929292;
+            text-align: center;
+            line-height: 18px;
+        }
+    </style>
+</head>
+
+<body ng-app="application">
+    <div id="wrp" ng-controller="masterCtrl">
+        <!-- <d3-donut ui-data-text="name"
+                  ui-data-value="usage"
+                  inner-radius="100"
+                  outer-radius="140"
+                  arc-hover-size="20"
+                  center-text="123.45 MB"
+                  center-text-size="2"
+                  legend="true"
+                  tooltip="trafficChartToolTipFormat">
+            <div class="ui-disable-legend">
+                <div>Application</div>
+                <div>monitor disabled</div>
+            </div>        
+        </d3-donut> -->
+    </div>
+    <form name="myForm" ng-controller="DateController as dateCtrl">
+        <label for="exampleInput">Pick a date in 2013:</label>
+        <input type="date" id="exampleInput" name="input" ng-model="example.value" placeholder="yyyy-MM-dd" min="2018-05-31" max="2018-06-02"
+            required />
+        <div role="alert">
+            <span class="error" ng-show="myForm.input.$error.required">
+                Required!</span>
+            <span class="error" ng-show="myForm.input.$error.date">
+                Not a valid date!</span>
+        </div>
+        <tt>value = {{example.value | date: "yyyy-MM-dd"}}</tt>
+        <br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt>
+        <br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt>
+        <br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt>
+        <br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt>
+        <br/>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<html>
+
+<head>
+    <style type="text/css">
+        @charset "UTF-8";
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak,
+        .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+
+        .ng-animate-shim {
+            visibility: hidden;
+        }
+
+        .ng-anchor {
+            position: absolute;
+        }
+
+        .ui-d3-chart-tooltip {
+            position: absolute;
+            padding: 7px;
+            text-align: left;
+            font-size: 12px;
+            background-color: #ffffffc4;
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #000;
+        }
+
+        .ui-d3-chart-tooltip.transition {
+            transition: linear, opacity .1s linear;
+        }
+
+        .ui-disable-legend {
+            position: absolute;
+            font-size: 14px;
+            font-weight: 600;
+            color: #929292;
+            text-align: center;
+            line-height: 18px;
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- browser property -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <!-- title -->
+    <title>Dashboard</title>
+    <!-- favicon -->
+    <link href="/favicon.png" rel="SHORTCUT ICON">
+
+    <link rel="stylesheet" href="http://localhost:63342/cc/gui/css/initialize.css">
+    <link rel="stylesheet" href="http://localhost:63342/res/css/vender.bundle.css">
+    <link rel="stylesheet" href="http://localhost:63342/cc/gui/css/core.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+    <script src="ap.js"></script>
+</head>
+
+<body ng-app="application" class="main ng-scope">
+    <section id="page-body">
+        <section id="view" class="view" style="min-height: 398px;">
+            <!-- ngView: -->
+            <div id="view-place" class="ng-scope ng-isolate-scope animate-page"
+                style="">
+                <div id="dash-board" class="ng-scope">
+                    <div class="view-body ui-pending ng-isolate-scope">
+                        <div class="">
+                            <!-- ngIf: dashboardType==='CC' -->
+
+                            <!-- ngIf: dashboardType==='AP' -->
+                            <div id="ap-dashboard2" class="row main ng-scope ng-isolate-scope">
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur quis repellat, fuga unde possimus, accusantium consequuntur, similique non ut fugit velit omnis distinctio consectetur eveniet minima et. Eos, dolorem repellendus!
+                            </div>
+                            <!-- end ngIf: dashboardType==='AP' -->
+                        </div>
+                        <!-- ngIf: isPending -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</body>
+
+</html>

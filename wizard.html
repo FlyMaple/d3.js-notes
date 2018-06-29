@@ -1,0 +1,399 @@
+<html>
+
+<head>
+    <style type="text/css">
+        @charset "UTF-8";
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak,
+        .ng-hide:not(.ng-hide-animate) {
+            display: none !important;
+        }
+
+        ng\:form {
+            display: block;
+        }
+
+        .ng-animate-shim {
+            visibility: hidden;
+        }
+
+        .ng-anchor {
+            position: absolute;
+        }
+
+        .ui-d3-chart-tooltip {
+            position: absolute;
+            padding: 7px;
+            text-align: left;
+            font-size: 12px;
+            background-color: #ffffffc4;
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #000;
+        }
+
+        .ui-d3-chart-tooltip.transition {
+            transition: linear, opacity .1s linear;
+        }
+
+        .ui-disable-legend {
+            position: absolute;
+            font-size: 14px;
+            font-weight: 600;
+            color: #929292;
+            text-align: center;
+            line-height: 18px;
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- browser property -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <!-- title -->
+    <title>Dashboard</title>
+    <!-- favicon -->
+    <link href="/favicon.png" rel="SHORTCUT ICON">
+
+    <link rel="stylesheet" href="http://localhost:63342/cc/gui/css/initialize.css">
+    <link rel="stylesheet" href="http://localhost:63342/res/css/vender.bundle.css">
+    <link rel="stylesheet" href="http://localhost:63342/cc/gui/css/core.css">
+    <link rel="stylesheet" href="css/wizard.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.9/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+    <script src="wizard.js"></script>
+</head>
+
+<body ng-app="application" class="main">
+    <section id="page-body">
+        <section id="view" class="view" style="min-height: 698px;">
+            <!-- ngView: -->
+            <div id="view-place" class="ng-scope ng-isolate-scope animate-page" style="">
+                <div id="quick-start" class="gap" ng-controller="quickStartCtrl">
+                    <div class="row wrapper">
+                        <div class="welcome">
+                            <div class="title">
+                                <div>Hey! It looks like your first time</div>
+                                <div>Let's get you setup!</div>
+                            </div>
+                            <div class="banner">
+                                <img src="" alt="">
+                            </div>
+                            <div class="text">
+                                <div>We'll have you up and running in no time! we jus need to complete a few</div>
+                                <div>initial steps and you'll soon be in the cloud!</div>
+                            </div>
+                            <div class="btn-group">
+                                <button class="button primary">Let's Start</button>
+                            </div>
+                        </div>
+
+                        <div class="step-flow step1" ng-if="stepFlow&&step===1">
+                            <div class="col-sm-6 left">
+                                <div class="about-wrapper">
+                                    <ul class="step">
+                                        <li class="active">01</li>
+                                        <li>02</li>
+                                        <li>03</li>
+                                        <li>04</li>
+                                    </ul>
+                                    <div class="about">
+                                        Nebula is organized into Organizations for example "Your Company" or "Your Client" and sites for example "London". You can
+                                        create as many organizations and sites as you like once you're up and running. Please
+                                        enter your first Organization name and Site
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 right">
+                                <div class="form-container form-org">
+                                    <div class="title">
+                                        <div>First Step is to create your</div>
+                                        <div>first Organization and Site</div>
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">Organization</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">Site</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <select name="" id="">
+                                        <option value=""></option>
+                                    </select>
+                                    <select name="" id="">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="btn-group">
+                                        <button>Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-flow step2" ng-if="stepFlow&&step===2">
+                            <div class="col-sm-6 left">
+                                <div class="about-wrapper">
+                                    <ul class="step">
+                                        <li>01</li>
+                                        <li class="active">02</li>
+                                        <li>03</li>
+                                        <li>04</li>
+                                    </ul>
+                                    <div class="about">
+                                        <div>
+                                            To add your first device you will need to input the MAC address which is the number that looks like this: 7C:99:DD:39:LC:JO
+                                            and the serial number that looks like this: S891345239054. These arr located
+                                            on the bottom of each device and are also found on the box, it may look like
+                                            this:
+                                        </div>
+                                        <img src="" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 right">
+                                <div class="form-container form-device">
+                                    <div class="title">
+                                        <div>Lets now add your First</div>
+                                        <div>device(s) to Nebula</div>
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">MAC Address</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">Serial Number</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="add-device">
+                                        <span>
+                                            <i>O</i>
+                                            <span class="txt pointer">Add</span>
+                                        </span>
+                                    </div>
+                                    <div class="device-table">
+                                        <div class="border">
+                                            <div class="scrolling">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="ng-scope drag">
+                                                                <div class="drag-tag ng-binding ng-scope">Service</div>
+                                                            </th>
+                                                            <th class="ng-scope drag">
+                                                                <div class="drag-tag ng-binding ng-scope">Service</div>
+                                                            </th>
+                                                            <th class="ng-scope drag">
+                                                                <div class="drag-tag ng-binding ng-scope">Service</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="ng-animate-disabled ">
+                                                            <td>Empty</td>
+                                                            <td>Empty</td>
+                                                            <td>Empty</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button>Back</button>
+                                        <button>Next</button>
+                                        <a class="txt pointer">Skip</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-flow step3" ng-if="stepFlow&&step===3">
+                            <div class="col-sm-6 left">
+                                <div class="about-wrapper">
+                                    <ul class="step">
+                                        <li>01</li>
+                                        <li>02</li>
+                                        <li class="active">03</li>
+                                        <li>04</li>
+                                    </ul>
+                                    <div class="about">
+                                        Enter your WiFi name. This what you will select from a device when connecting to your network. If you leave the password
+                                        empty then anyone will be able to access your network with the need to enter a password.
+                                        If a password is entered, we will automatically add WPA2 security so that every device
+                                        will need to enter a password to connect to your network.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 right">
+                                <div class="form-container form-wifi">
+                                    <div class="title">
+                                        <div>LLet's get your WiFi setup</div>
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">SSID (WiFi Name)</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">Password (Pre-Shared Key)</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">VLAN</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="btn-group">
+                                        <button>Back</button>
+                                        <button>Next</button>
+                                        <a class="txt pointer">Skip</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-flow step4" ng-if="stepFlow&&step===4">
+                            <div class="col-sm-6 left">
+                                <div class="about-wrapper">
+                                    <ul class="step">
+                                        <li>01</li>
+                                        <li>02</li>
+                                        <li>03</li>
+                                        <li class="active">04</li>
+                                    </ul>
+                                    <div class="about">
+                                        Enter your Guest SSID, If you leave the password empty then anyone will be able to access your network without the need to
+                                        enter a password.'Additionally you can choose to add a captive portal that will redirect
+                                        a user to either click "I agree" or access your guest network by using their Facebook
+                                        account.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 right">
+                                <div class="form-container form-guest">
+                                    <div class="title">
+                                        <div>Need to setup Guest WiFi?</div>
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">SSID (WiFi Name)</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">VLAN</label>
+                                        <input id="first" class="form-input" type="Password (Pre-Shared Key)" />
+                                    </div>
+                                    <div class="txt b margin bottom">How do you prefer guests accessing your guest network?</div>
+                                    <div>
+                                        <div class="radio">
+                                            <input type="radio" name="radioSecurity" id="opt-security-0" ng-model="data.security.access" ng-value="'OPEN'" />
+                                            <label for="opt-security-0">No captive web portal</label>
+                                        </div>
+                                        <div class="radio">
+                                            <input type="radio" name="radioSecurity" id="opt-security-0" ng-model="data.security.access" ng-value="'OPEN'" />
+                                            <label for="opt-security-0">Clicking "I agree" to access the network</label>
+                                        </div>
+                                        <div class="radio">
+                                            <input type="radio" name="radioSecurity" id="opt-security-0" ng-model="data.security.access" ng-value="'OPEN'" />
+                                            <label for="opt-security-0">Using their Facebook account to access the network</label>
+                                        </div>
+                                    </div>
+                                    <div class="w-form-group">
+                                        <label class="form-label" for="first">VLAN</label>
+                                        <input id="first" class="form-input" type="text" />
+                                    </div>
+                                    <div class="btn-group">
+                                        <button>Back</button>
+                                        <button>Next</button>
+                                        <a class="txt pointer">Skip</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summary" ng-if="isSummary">
+                            <div class="title">Well That's the basics sorted... you're ready to go!</div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="crop">
+                                        <div class="icon">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="card">
+                                            <i class="edit">O</i>
+                                            <div class="item">
+                                                <div class="title">Organization</div>
+                                                <div class="content">Zyxel</div>
+                                            </div>
+                                            <div class="item">
+                                                <div class="title">Site</div>
+                                                <div class="content">Lodon</div>
+                                            </div>
+                                        </div>
+                                        <div class="card card-device">
+                                            <i class="edit">O</i>
+                                            <div class="item">
+                                                <div class="title">Nebula Devices</div>
+                                                <div class="content">
+                                                    <span>Zyxel</span>
+                                                    <i>></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="crop">
+                                        <div class="icon">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="card">
+                                            <i class="edit">O</i>
+                                            <div class="item">
+                                                <div class="title">WiFi Name (SSID)</div>
+                                                <div class="content">Zyxel</div>
+                                            </div>
+                                            <div class="item">
+                                                <div class="title">WiFi Password</div>
+                                                <div class="content">Lodon</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="crop">
+                                        <div class="icon">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="card">
+                                            <i class="edit">O</i>
+                                            <div class="item">
+                                                <div class="title">Guest WiFi Name (SSID)</div>
+                                                <div class="content">Zyxel</div>
+                                            </div>
+                                            <div class="item">
+                                                <div class="title">Authenication</div>
+                                                <div class="content">Lodon</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button class="button primary">Go to Nebula Dashboard</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</body>
+
+</html>

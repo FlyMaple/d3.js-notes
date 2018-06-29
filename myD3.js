@@ -335,7 +335,6 @@ function example_2() {
 
 
 function example_3() {
-
     var seedData = [
         {
             "name": "iTunes (Media)",
@@ -375,6 +374,11 @@ function example_3() {
         }
     ];
 
+    var app_total_usage = 0;
+    seedData.forEach(function (app) {
+        app_total_usage += app.usage;
+    });
+
     var lighten = function (color, percent) {
         var num = parseInt(color.substring(1), 16),
             amt = Math.round(2.55 * percent),
@@ -386,18 +390,20 @@ function example_3() {
     };
 
 
-    var width = 450,
-        height = 450,
-        radius = Math.min(width, height) / 2;
+    var width = 600,
+        height = 300,
+        s_width = 240,
+        s_height = 300,
+        radius = Math.min(s_width, s_height) / 2;
 
     var colour = d3.scaleOrdinal(d3.schemeCategory10);
 
     var arc = d3.arc()
-        .innerRadius(radius - 100)
-        .outerRadius(radius - 50);
+        .innerRadius(radius - 60)
+        .outerRadius(radius - 30);
     var arcHover = d3.arc()
-        .innerRadius(radius - 100)
-        .outerRadius(radius - 40);
+        .innerRadius(radius - 60)
+        .outerRadius(radius - 20);
 
     var pie = d3.pie()
         .value(function (d) {
@@ -406,162 +412,212 @@ function example_3() {
         .sort(null);
 
     var svg = d3.select('#example_3')
+        .attr('width', width)
+        .attr('height', height)
+        .style('max-width', 400)
         .style('display', 'initial')
-        .style('cursor', 'pointer')
-        .attrs({
-            width: 900,
-            height,
-        })
         .append('svg')
-        .attrs({
-            width: 900,
-            height,
-        });
-
+        .attr('width', width)
+        .attr('height', height)
+        .style('max-width', 400);
     var g = svg.append('g')
-        .attrs({
-            transform: `translate(${radius}, ${radius})`,
-        });
+        .attr('transform', 'translate(' + radius + ', ' + (radius + 20) + ')');
 
     var gg = g.selectAll('.arc')
         .data(pie(seedData))
         .enter()
         .append('g')
-        .attrs({
-            class: 'arc',
-        });
+        .attr('class', 'arc');
+
+
+
+    var tooltip = svg.append('g')
+        .attr('class', 'traffic_tooltip')
+        .attr('pointer-events', 'none')
+        .style('opacity', 0);
+
+    tooltip.append('rect')
+        // .attr('d', 'M 3.5 0.5 L 133.5 0.5 C 136.5 0.5 136.5 0.5 136.5 3.5 L 136.5 44.5 C 136.5 47.5 136.5 47.5 133.5 47.5 L 3.5 47.5 C 0.5 47.5 0.5 47.5 0.5 44.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5')
+        .attr('fill', 'rgba(247,247,247,0.85)')
+        .attr('stroke', '#0280b3')
+        .attr('stroke-width', '1');
+
+    var text = tooltip.append('text')
+        .attr('font-size', '12px')
+
+    text.append('tspan')
+        .attr('dx', 10)
+        .attr('dy', 18)
+        .text('Google');
+
+    text.append('tspan')
+        .attr('x', 10)
+        .attr('dy', '1.5em')
+        .text('Application:');
+
+    text.append('tspan')
+        .attr('dx', '.5em')
+        .attr('font-weight', 600)
+        .text('58.65%');
+
+    g.append('text')
+        .text('123 MB')
+        .attr('y', 6)
+        .style('font-size', '20px')
+        .style('font-weight', 600)
+        .style('fill', 'gold')
+        .style('text-anchor', 'middle');
 
     gg.append('path')
-        .attrs({
-            d: arc,
-            fill: function (d) {
-                return colour(d.data.name);
-            },
-            stroke: 'rgba(255, 255, 255, .5)',
-            'stroke-width': 2,
+        .attr('d', arc)
+        .attr('fill', function (d) {
+            return colour(d.data.name);
         })
+        .attr('stroke', 'rgba(255, 255, 255, .5)')
+        .attr('stroke-width', 2)
         .on('mouseover', function (d, i) {
             d3.select(this)
                 .transition()
                 .duration(500)
-                .attrs({
-                    d: arcHover,
-                    fill: function (d) {
-                        return `#${lighten(colour(d.data.name), 5)}`;
-                    },
+                .attr('d', arcHover)
+                .attr('fill', function (d) {
+                    return '#' + lighten(colour(d.data.name), 5);
                 });
         })
         .on('mouseout', function (d, i) {
             d3.select(this)
                 .transition()
                 .duration(500)
-                .attrs({
-                    d: arc,
-                    fill: function (d) {
-                        return colour(d.data.name);
-                    },
+                .attr('d', arc)
+                .attr('fill', function (d) {
+                    return colour(d.data.name);
                 });
-        });
 
-    g.append('text')
-        .text('230.64 MB')
-        .attrs({
-            y: 15,
+            tooltip.style('opacity', 0);
         })
-        .styles({
-            'font-size': '44px',
-            'font-weight': 600,
-            'fill': 'gold',
-            'text-anchor': 'middle',
+        .on('mousemove', function (d) {
+            var x = radius + d3.mouse(this)[0] - 68;
+            var y = radius + d3.mouse(this)[1] + 20 - 60;
+
+            var tspan_list = tooltip.attr('transform', 'translate(' + x + ', ' + y + ')')
+                .style('opacity', 1)
+                .selectAll('tspan').nodes();
+
+            d3.select(tspan_list[0]).text(d.data.name);
+            d3.select(tspan_list[2]).text(((d.data.usage / app_total_usage) * 100).toFixed(2) + '%');
+
+            var length1 = tspan_list[0].getComputedTextLength()
+            var length2 = tspan_list[1].getComputedTextLength() + tspan_list[2].getComputedTextLength();
+            var width = length1 > length2 ? length1 : length2;
+
+            tooltip.select('rect')
+                .attr('width', width + 28)
+                .attr('height', 46)
+                .attr('stroke', colour(d.data.name));
+        })
+        .transition()
+        .duration(1000)
+        .attrTween('d', function (d) {
+            var interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+            return function (t) {
+                return arc(interpolate(t));
+            };
         });
 
     var legend = svg.append('g')
-        .attrs({
-            transform: `translate(${width + 100}, 85)`,
-        })
+        .attr('class', 'legend')
+        .attr('transform', 'translate(250, 42)')
         .selectAll('.legend')
         .data(seedData)
         .enter()
         .append('g')
-        .attrs({
-            // 'pointer-events': 'all',
-            transform: function (d, i, nodes) {
-                return `translate(0, ${i * ((height - 150) / nodes.length)})`;
-            },
+        .attr('transform', function (d, i, nodes) {
+            nodes.length * 22.22
+            return 'translate(0, ' + i * 22.22 + ')';
         });
 
     legend.append('rect')
-        .attrs({
-            class: 'rect',
-            y: '.15em',
-            width: 15,
-            height: 15,
-            fill: function (d) {
-                return colour(d.name);
-            },
-            stroke: '#fff',
-            'stroke-width': 1,
-        });
+        .attr('class', 'rect')
+        .attr('y', '.15em')
+        .attr('width', 15)
+        .attr('height', 15)
+        .attr('fill', function (d) {
+            return colour(d.name);
+        })
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 1);
 
     legend.append('text')
-        .attrs({
-            dy: '.98em',
-            dx: '2em',
-            fill: '#fff',
-        })
+        .attr('dy', '.98em')
+        .attr('dx', '2em')
+        .attr('fill', '#fff')
         .text(function (d) {
             return d.name.match(/[^\s]+/)[0];
         });
 
     legend.append('rect')
-        .attrs({
-            class: 'legend-item-wrp',
-            width: function (d, i) {
-                var g_width = legend.nodes()[i].getBBox().width;
+        .attr('class', 'legend-item-wrp')
+        .attr('width', function (d, i) {
+            var g_width = legend.nodes()[i].getBBox().width;
 
-                return g_width;
-            },
-            height: 20,
-            fill: 'rgba(0, 0, 0, 0)',
+            return g_width;
         })
+        .attr('height', 20)
+        .attr('fill', 'rgba(0, 0, 0, 0)')
         .on('mouseover', function (d, i) {
-            d3.select(legend.nodes()[i]).select('.rect').attrs({
-                fill: function (d) {
-                    return `#${lighten(colour(d.name), 5)}`;
-                },
+            d3.select(legend.nodes()[i]).select('.rect').attr('fill', function (d) {
+                return '#' + lighten(colour(d.name), 5);
             });
 
             d3.select(gg.nodes()[i])
                 .select('path')
                 .transition()
                 .duration(500)
-                .attrs({
-                    d: arcHover,
-                    fill: function (d) {
-                        return `#${lighten(colour(d.data.name), 5)}`;
-                    },
+                .attr('d', arcHover)
+                .attr('fill', function (d) {
+                    var x = radius + arc.centroid(d)[0] - 68;
+                    var y = radius + arc.centroid(d)[1] + 20 - 60;
+
+                    var tspan_list = tooltip.attr('transform', 'translate(' + x + ', ' + y + ')')
+                        .style('opacity', 1)
+                        .selectAll('tspan').nodes();
+
+                    d3.select(tspan_list[0]).text(d.data.name);
+                    d3.select(tspan_list[2]).text(((d.data.usage / app_total_usage) * 100).toFixed(2) + '%');
+
+                    var length1 = tspan_list[0].getComputedTextLength()
+                    var length2 = tspan_list[1].getComputedTextLength() + tspan_list[2].getComputedTextLength();
+                    var width = length1 > length2 ? length1 : length2;
+
+                    tooltip.select('rect')
+                        .attr('width', width + 28)
+                        .attr('height', 46)
+                        .attr('stroke', colour(d.data.name));
+                    return '#' + lighten(colour(d.data.name), 5);
                 });
         })
         .on('mouseout', function (d, i) {
-            d3.select(legend.nodes()[i]).select('.rect').attrs({
-                fill: function (d) {
-                    return colour(d.name);
-                },
+            d3.select(legend.nodes()[i]).select('.rect').attr('fill', function (d) {
+                return colour(d.name);
             });
 
             d3.select(gg.nodes()[i])
                 .select('path')
                 .transition()
                 .duration(500)
-                .attrs({
-                    d: arc,
-                    fill: function (d) {
-                        return `#${lighten(colour(d.data.name), 5)}`;
-                    },
+                .attr('d', arc)
+                .attr('fill', function (d) {
+                    return '#' + lighten(colour(d.data.name), 5);
                 });
-        });;
+        });
+
+    svg.select('.legend')
+        .attr('transform', function (d) {
+            var y = (height / 2) - (this.getBBox().height / 2) - 8;
+            return 'translate(250, ' + y + ')';
+        });
 }
-// example_3();
+example_3();
 
 function example_4() {
     var data = [
@@ -681,15 +737,15 @@ function example_4() {
                 x = Math.cos(midAngle) * cDim.labelRadius;
             return x > 0 ? 'start' : 'end';
         },
-        
+
         'class': 'label-text'
     })
-    .styles({
-        'font-size': '12px',
-    })
-    .text(function (d) {
-        return d.data.name + ' ( ' + d.data.pct + ' ) ';
-    })
+        .styles({
+            'font-size': '12px',
+        })
+        .text(function (d) {
+            return d.data.name + ' ( ' + d.data.pct + ' ) ';
+        })
 
 
     // relax the label!
@@ -740,4 +796,4 @@ function example_4() {
 
     relax();
 }
-example_4();
+// example_4();

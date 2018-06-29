@@ -1,0 +1,127 @@
+@import 'compass/css3';
+
+.select-dashboard2 {
+    display: flex;
+    float: right;
+        
+    &::before {
+        content: 'Display';
+        padding: 0 10px;
+        font-size: 14px;
+        background-color: #31a6b4;
+        height: 28px;
+        line-height: 28px;
+    }
+
+    select {
+        font-size: 14px;
+        padding: 0px 30px 0px 10px;
+        height: 28px;
+        line-height: 28px;
+        color: #696969;
+        border: 1px solid #ccc;
+        -webkit-appearance: none; /* Webkit */
+        -moz-appearance: none; /* FF */
+        -ms-appearance: none; /* Edge */
+        appearance: none; /* Future */
+        background: url(/_/AP/images/select_triangle.svg) no-repeat right;
+        background-color: #cddee9;
+
+        /*for ie10 、 ie11*/
+        @media screen and (-ms-high-contrast: active),(-ms-high-contrast: none){
+            background: url(/_/AP/images/select_triangle.svg) no-repeat 42px 0;
+            background-color: #cddee9;
+        }
+    }
+
+    /* IE11 */
+    select::-ms-expand {
+        display: none;
+    }
+}
+
+#dash-board {
+}
+
+.mark-info {
+    display: flex;
+    flex-flow: column wrap;
+    padding: 10px 15px;
+    max-width: 240px;
+    color: #31A6B4;
+    background-color: #fff;
+    border: 1px solid #ccc;
+
+    ul {
+        margin: 0;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        height: 30px;
+
+        .title {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .thumb {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .content {
+        & > ul {
+            & > li {
+                position: relative;
+                display: flex;
+                align-items: center;
+                min-height: 34px;
+                
+                img {
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 5px;
+                }
+
+                &.ssids {
+                    margin-top: 4px;
+                    align-items: flex-start;
+
+                    & > ul {
+                        margin-top: -1px;
+                        margin-bottom: 5px;
+                        flex: 1;
+
+                        & > li {
+                            display: flex;
+                            align-items: center;
+                            min-height: 24px;
+                        }
+                    }
+
+                    .more {
+                        align-self: flex-end;
+                        margin: 0 10px 8px 0;
+                    }
+                }
+
+                &.address {
+                    align-items: flex-start;
+
+                    .text {
+                        line-height: 20px;
+                        margin-top: 1px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#ap-dashboard2 {
+    
+}

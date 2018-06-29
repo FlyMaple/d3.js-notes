@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        body {
+            background: #364248;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+    <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="example_3"></div>
+    <script>
+        function example_3() {
+
+            var seedData = [
+                {
+                    "name": "iTunes (Media)",
+                    "usage": 131893248
+                },
+                {
+                    "name": "Facebook (Access)",
+                    "usage": 30865408
+                },
+                {
+                    "name": "Google APIs(SSL) (Authentication)",
+                    "usage": 27033600
+                },
+                {
+                    "name": "Lets Encrypt (Authentication)",
+                    "usage": 4229519
+                },
+                {
+                    "name": "HTTP-misc (Access)",
+                    "usage": 2589696
+                },
+                {
+                    "name": "iCloud (Access)",
+                    "usage": 2504704
+                },
+                {
+                    "name": "Yahoo Authentication via SSL (Authentication)",
+                    "usage": 2185216
+                },
+                {
+                    "name": "iTunes (Access)",
+                    "usage": 1558528
+                },
+                {
+                    "name": "Facebook (Authentication)",
+                    "usage": 907264
+                }
+            ];
+
+            var lighten = function (color, percent) {
+                var num = parseInt(color.substring(1), 16),
+                    amt = Math.round(2.55 * percent),
+                    R = (num >> 16) + amt,
+                    B = (num >> 8 & 0x00FF) + amt,
+                    G = (num & 0x0000FF) + amt;
+
+                return (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (B < 255 ? B < 1 ? 0 : B : 255) * 0x100 + (G < 255 ? G < 1 ? 0 : G : 255)).toString(16).slice(1);
+            };
+
+
+            var width = 600,
+                height = 300,
+                s_width = 240,
+                s_height = 300,
+                radius = Math.min(s_width, s_height) / 2;
+
+            var colour = d3.scaleOrdinal(d3.schemeCategory10);
+
+            var arc = d3.arc()
+                .innerRadius(radius - 60)
+                .outerRadius(radius - 30);
+            var arcHover = d3.arc()
+                .innerRadius(radius - 60)
+                .outerRadius(radius - 20);
+
+            var pie = d3.pie()
+                .value(function (d) {
+                    return d.usage;
+                })
+                .sort(null);
+
+            var svg = d3.select('#example_3')
+                .attr('width', width)
+                .attr('height', height)
+                .style('max-width', 400)
+                .style('display', 'initial')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .style('max-width', 400);
+
+            var g = svg.append('g')
+                .attr('transform', 'translate(' + radius + ', ' + (radius + 20) + ')');
+
+            var gg = g.selectAll('.arc')
+                .data(pie(seedData))
+                .enter()
+                .append('g')
+                .attr('class', 'arc');
+
+
+
+            var tooltip = svg.append('g')
+                .attr('class', 'traffic_tooltip')
+                .attr('pointer-events', 'none')
+                .style('display', 'none')
+                // .attr('transform', 'translate(0, -1000)')
+                .style('opacity', 0);
+
+            tooltip.append('path')
+                .attr('d', 'M 3.5 0.5 L 133.5 0.5 C 136.5 0.5 136.5 0.5 136.5 3.5 L 136.5 44.5 C 136.5 47.5 136.5 47.5 133.5 47.5 L 3.5 47.5 C 0.5 47.5 0.5 47.5 0.5 44.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5')
+                .attr('fill', 'rgba(247,247,247,0.85)')
+                .attr('stroke', '#0280b3')
+                .attr('stroke-width', '1');
+
+            var text = tooltip.append('text')
+                .attr('font-size', '12px')
+
+            text.append('tspan')
+                .attr('dx', 10)
+                .attr('dy', 18)
+                .text('Google');
+
+            text.append('tspan')
+                .attr('x', 10)
+                .attr('dy', '1.5em')
+                .text('Application:');
+
+            text.append('tspan')
+                .attr('dx', '.5em')
+                .attr('font-weight', 600)
+                .text('58.65%');
+
+            g.append('text')
+                .text('123 MB')
+                .attr('y', 6)
+                .style('font-size', '20px')
+                .style('font-weight', 600)
+                .style('fill', 'gold')
+                .style('text-anchor', 'middle');
+
+            gg.append('path')
+                .attr('d', arc)
+                .attr('fill', function (d) {
+                    return colour(d.data.name);
+                })
+                .attr('stroke', 'rgba(255, 255, 255, .5)')
+                .attr('stroke-width', 2)
+                .on('mouseover', function (d, i) {
+                    d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr('d', arcHover)
+                        .attr('fill', function (d) {
+                            return '#' + lighten(colour(d.data.name), 5);
+                        });
+                })
+                .on('mouseout', function (d, i) {
+                    d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr('d', arc)
+                        .attr('fill', function (d) {
+                            return colour(d.data.name);
+                        });
+
+                    setTimeout(function () {
+                        tooltip
+                            // .attr('transform', 'translate(0, -1000)')
+                            .style('display', 'none')
+                            .style('opacity', 0);
+                    }, 100);
+                })
+                .on('mousemove', function (d) {
+                    var x = radius + d3.mouse(this)[0] - 68;
+                    var y = radius + d3.mouse(this)[1] + 20 - 60;
+                    tooltip.transition()
+                        .duration(500)
+                        .attr('transform', 'translate(' + x + ', ' + y + ')')
+                        .style('display', 'block')
+                        .style('opacity', 1);
+                })
+                .transition()
+                .duration(1000)
+                .attrTween('d', function (d) {
+                    var interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+                    return function (t) {
+                        return arc(interpolate(t));
+                    };
+                });
+
+            var legend = svg.append('g')
+                .attr('class', 'legend')
+                .attr('transform', 'translate(250, 42)')
+                .selectAll('.legend')
+                .data(seedData)
+                .enter()
+                .append('g')
+                .attr('transform', function (d, i, nodes) {
+                    nodes.length * 22.22
+                    return 'translate(0, ' + i * 22.22 + ')';
+                    // return `translate(0, ${i * ((height - 100) / nodes.length)})`;
+                });
+
+            legend.append('rect')
+                .attr('class', 'rect')
+                .attr('y', '.15em')
+                .attr('width', 15)
+                .attr('height', 15)
+                .attr('fill', function (d) {
+                    return colour(d.name);
+                })
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 1);
+
+            legend.append('text')
+                .attr('dy', '.98em')
+                .attr('dx', '2em')
+                .attr('fill', '#fff')
+                .text(function (d) {
+                    return d.name.match(/[^\s]+/)[0];
+                });
+
+            legend.append('rect')
+                .attr('class', 'legend-item-wrp')
+                .attr('width', function (d, i) {
+                    var g_width = legend.nodes()[i].getBBox().width;
+
+                    return g_width;
+                })
+                .attr('height', 20)
+                .attr('fill', 'rgba(0, 0, 0, 0)')
+                .on('mouseover', function (d, i) {
+                    d3.select(legend.nodes()[i]).select('.rect').attr('fill', function (d) {
+                        return '#' + lighten(colour(d.name), 5);
+                    });
+
+                    d3.select(gg.nodes()[i])
+                        .select('path')
+                        .transition()
+                        .duration(500)
+                        .attr('d', arcHover)
+                        .attr('fill', function (d) {
+                            return '#' + lighten(colour(d.data.name), 5);
+                        });
+                })
+                .on('mouseout', function (d, i) {
+                    d3.select(legend.nodes()[i]).select('.rect').attr('fill', function (d) {
+                        return colour(d.name);
+                    });
+
+                    d3.select(gg.nodes()[i])
+                        .select('path')
+                        .transition()
+                        .duration(500)
+                        .attr('d', arc)
+                        .attr('fill', function (d) {
+                            return '#' + lighten(colour(d.data.name), 5);
+                        });
+                });
+
+            svg.select('.legend')
+                .attr('transform', function (d) {
+                    var y = (height / 2) - (this.getBBox().height / 2) - 8;
+                    return 'translate(250, ' + y + ')';
+                });
+        }
+        example_3();
+    </script>
+</body>
+
+</html>
